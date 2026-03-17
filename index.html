@@ -80,7 +80,7 @@ let out = doc.getZip().generate({
 type: "blob"
 });
 
-let nome = document.getElementById("Nome_completo_IT").value || "documento";
+let nome = document.getElementById("Nome_completo_menor").value || "documento";
 
 saveAs(out, nome.replace(/ /g,"_") + ".docx");
 
