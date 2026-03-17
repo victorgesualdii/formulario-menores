@@ -82,7 +82,17 @@ type: "blob"
 
 let nome = document.getElementById("Nome_completo_menor").value || "documento";
 
-saveAs(out, nome.replace(/ /g,"_") + ".docx");
+let blob = new Blob([out], {
+type: "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+});
+
+let link = document.createElement("a");
+link.href = URL.createObjectURL(blob);
+link.download = nome.replace(/ /g,"_") + ".docx";
+
+document.body.appendChild(link);
+link.click();
+document.body.removeChild(link);
 
 }
 
