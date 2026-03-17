@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Gerador de Procuração para Menores</title>
+
+<script src="https://unpkg.com/pizzip@3.1.5/dist/pizzip.js"></script>
+
+<script src="https://unpkg.com/docxtemplater@3.37.0/build/docxtemplater.js"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
+
+<style>
+body { font-family: Arial; max-width: 800px; margin: auto; }
+input { width: 100%; padding: 8px; margin-bottom: 10px; }
+button { padding: 10px; font-size: 16px; }
+h3 { margin-top: 20px; }
+</style>
+
+</head>
+
+<body>
+
+<h2>Gerador de Procuração para Menores</h2>
+
+<h3>Genitor de origem italiana</h3>
+<input id="Nome_completo_IT" placeholder="Nome completo">
+<input id="Data_nascimento_IT" placeholder="Data de nascimento">
+<input id="Estado_nascimento_IT" placeholder="Estado de nascimento">
+
+<h3>Outro genitor</h3>
+<input id="Nome_completo_outro" placeholder="Nome completo">
+<input id="Data_nascimento_outro" placeholder="Data de nascimento">
+<input id="Estado_nascimento_outro" placeholder="Estado de nascimento">
+
+<h3>Menor</h3>
+<input id="Nome_completo_menor" placeholder="Nome completo">
+<input id="Data_nascimento_menor" placeholder="Data de nascimento">
+<input id="Estado_nascimento_menor" placeholder="Estado de nascimento">
+
+<h3>Tribunal</h3>
+<input id="Tribunal" placeholder="Tribunal">
+
+<button onclick="gerar()">Gerar Documento</button>
+
+<script>
+
+async function gerar() {
+
+let response = await fetch("menores.docx");
+let content = await response.arrayBuffer();
+
+let zip = new PizZip(content);
+
+let doc = new docxtemplater(zip, {
+delimiters: {
+start: "[[",
+end: "]]"
+}
+});
+
+doc.render({
+Nome_completo_IT: document.getElementById("Nome_completo_IT").value,
+Data_nascimento_IT: document.getElementById("Data_nascimento_IT").value,
+Estado_nascimento_IT: document.getElementById("Estado_nascimento_IT").value,
+
+Nome_completo_outro: document.getElementById("Nome_completo_outro").value,
+Data_nascimento_outro: document.getElementById("Data_nascimento_outro").value,
+Estado_nascimento_outro: document.getElementById("Estado_nascimento_outro").value,
+
+Nome_completo_menor: document.getElementById("Nome_completo_menor").value,
+Data_nascimento_menor: document.getElementById("Data_nascimento_menor").value,
+Estado_nascimento_menor: document.getElementById("Estado_nascimento_menor").value,
+
+Tribunal: document.getElementById("Tribunal").value
+});
+
+let out = doc.getZip().generate({
+type: "blob"
+});
+
+let nome = document.getElementById("Nome_completo_IT").value || "documento";
+
+saveAs(out, nome.replace(/ /g,"_") + ".docx");
+
+}
+
+</script>
+
+</body>
+</html>
