@@ -3,7 +3,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Gerador de Procuração para Menores</title>
+<title>Gerador de Procuração</title>
 
 <script src="https://unpkg.com/pizzip@3.1.5/dist/pizzip.js"></script>
 
@@ -12,10 +12,9 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
 
 <style>
-body { font-family: Arial; max-width: 800px; margin: auto; }
+body { font-family: Arial; max-width: 700px; margin: auto; }
 input { width: 100%; padding: 8px; margin-bottom: 10px; }
-button { padding: 10px; font-size: 16px; }
-h3 { margin-top: 20px; }
+button { padding: 10px; font-size: 16px; width: 100%; }
 </style>
 
 </head>
@@ -24,22 +23,18 @@ h3 { margin-top: 20px; }
 
 <h2>Gerador de Procuração para Menores</h2>
 
-<h3>Genitor de origem italiana</h3>
-<input id="Nome_completo_IT" placeholder="Nome completo">
-<input id="Data_nascimento_IT" placeholder="Data de nascimento">
-<input id="Estado_nascimento_IT" placeholder="Estado de nascimento">
+<input id="Nome_completo_IT" placeholder="Nome completo do genitor da linhagem italiana">
+<input id="Data_nascimento_IT" placeholder="Data nascimento">
+<input id="Estado_nascimento_IT" placeholder="Estado nascimento">
 
-<h3>Outro genitor</h3>
-<input id="Nome_completo_outro" placeholder="Nome completo">
-<input id="Data_nascimento_outro" placeholder="Data de nascimento">
-<input id="Estado_nascimento_outro" placeholder="Estado de nascimento">
+<input id="Nome_completo_outro" placeholder="Nome completo do outro genitor">
+<input id="Data_nascimento_outro" placeholder="Data nascimento">
+<input id="Estado_nascimento_outro" placeholder="Estado nascimento">
 
-<h3>Menor</h3>
-<input id="Nome_completo_menor" placeholder="Nome completo">
-<input id="Data_nascimento_menor" placeholder="Data de nascimento">
-<input id="Estado_nascimento_menor" placeholder="Estado de nascimento">
+<input id="Nome_completo_menor" placeholder="Nome completo (Menor)">
+<input id="Data_nascimento_menor" placeholder="Data nascimento">
+<input id="Estado_nascimento_menor" placeholder="Estado nascimento">
 
-<h3>Tribunal</h3>
 <input id="Tribunal" placeholder="Tribunal">
 
 <button onclick="gerar()">Gerar Documento</button>
@@ -48,7 +43,7 @@ h3 { margin-top: 20px; }
 
 async function gerar() {
 
-let response = await fetch("menores.docx");
+let response = await fetch("menores.docx"); // seu modelo
 let content = await response.arrayBuffer();
 
 let zip = new PizZip(content);
@@ -81,18 +76,9 @@ type: "blob"
 });
 
 let nome = document.getElementById("Nome_completo_menor").value || "documento";
+nome = nome.replace(/[\\/:*?"<>|]/g, "");
 
-let blob = new Blob([out], {
-type: "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
-});
-
-let link = document.createElement("a");
-link.href = URL.createObjectURL(blob);
-link.download = nome.replace(/ /g,"_") + ".docx";
-
-document.body.appendChild(link);
-link.click();
-document.body.removeChild(link);
+saveAs(out, nome.replace(/ /g,"_") + ".docx");
 
 }
 
