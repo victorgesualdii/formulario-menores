@@ -3,7 +3,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Gerador de Procuração</title>
+<title>Gerador de Procuração para Menores</title>
 
 <script src="https://unpkg.com/pizzip@3.1.5/dist/pizzip.js"></script>
 
@@ -13,28 +13,46 @@
 
 <style>
 body { font-family: Arial; max-width: 700px; margin: auto; }
-input { width: 100%; padding: 8px; margin-bottom: 10px; }
-button { padding: 10px; font-size: 16px; width: 100%; }
+
+h2 { margin-top: 20px; }
+
+input {
+width: 100%;
+padding: 10px;
+margin-bottom: 10px;
+border: 1px solid #ccc;
+border-radius: 4px;
+}
+
+button {
+padding: 12px;
+font-size: 16px;
+margin-top: 10px;
+}
 </style>
 
 </head>
 
 <body>
 
-<h2>Gerador de Procuração para Menores</h2>
+<h1>Gerador de Procuração para Menores</h1>
 
-<input id="Nome_completo_IT" placeholder="Nome completo do genitor da linhagem italiana">
-<input id="Data_nascimento_IT" placeholder="Data nascimento">
-<input id="Estado_nascimento_IT" placeholder="Estado nascimento">
+<h2>Genitor de origem italiana</h2>
+<input id="Nome_completo_IT" placeholder="Nome completo do genitor de origem italiana">
+<input id="Data_nascimento_IT" placeholder="Data de nascimento">
+<input id="Estado_nascimento_IT" placeholder="Estado de nascimento">
 
+<h2>Outro genitor</h2>
 <input id="Nome_completo_outro" placeholder="Nome completo do outro genitor">
-<input id="Data_nascimento_outro" placeholder="Data nascimento">
-<input id="Estado_nascimento_outro" placeholder="Estado nascimento">
+<input id="Data_nascimento_outro" placeholder="Data de nascimento">
+<input id="Estado_nascimento_outro" placeholder="Estado de nascimento">
 
-<input id="Nome_completo_menor" placeholder="Nome completo (Menor)">
-<input id="Data_nascimento_menor" placeholder="Data nascimento">
-<input id="Estado_nascimento_menor" placeholder="Estado nascimento">
+<h2>Menor</h2>
+<input id="Nome_completo_menor" placeholder="Nome completo do menor">
+<input id="Data_nascimento_menor" placeholder="Data de nascimento">
+<input id="Estado_nascimento_menor" placeholder="Estado de nascimento">
 
+<h2>Tribunal</h2>
 <input id="Tribunal" placeholder="Tribunal">
 
 <button onclick="gerar()">Gerar Documento</button>
@@ -43,7 +61,7 @@ button { padding: 10px; font-size: 16px; width: 100%; }
 
 async function gerar() {
 
-let response = await fetch("menores.docx"); // seu modelo
+let response = await fetch("menores.docx");
 let content = await response.arrayBuffer();
 
 let zip = new PizZip(content);
