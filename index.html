@@ -50,7 +50,7 @@ button { padding: 10px; font-size: 16px; }
 
 async function gerar() {
 
-let response = await fetch("Teste.docx");
+let response = await fetch("menores.docx");
 let content = await response.arrayBuffer();
 
 let zip = new PizZip(content);
