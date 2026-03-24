@@ -23,21 +23,25 @@ button { padding: 10px; font-size: 16px; }
 
 <h2>Gerador de Procuração</h2>
 
-<input id="Nome_completo" placeholder="Nome completo">
-<input id="Data_nascimento" placeholder="Data de nascimento">
-<input id="Estado_nascimento" placeholder="Estado de nascimento">
-<input id="pais_IT" placeholder="País (Genitor IT)">
+<h3>Genitor de origem italiana</h3>
+<input id="Nome_completo_IT" placeholder="Nome completo">
+<input id="Data_nascimento_IT" placeholder="Data de nascimento">
+<input id="Estado_nascimento_IT" placeholder="Estado de nascimento">
+<input id="pais_IT" placeholder="País">
 
-<input id="Nome_completo_outro" placeholder="Nome completo (Outro genitor)">
+<h3>Outro genitor</h3>
+<input id="Nome_completo_outro" placeholder="Nome completo">
 <input id="Data_nascimento_outro" placeholder="Data de nascimento">
 <input id="Estado_nascimento_outro" placeholder="Estado de nascimento">
-<input id="pais_outro" placeholder="País (Outro genitor)">
+<input id="pais_outro" placeholder="País">
 
-<input id="Nome_completo_menor" placeholder="Nome completo (Menor)">
+<h3>Menor</h3>
+<input id="Nome_completo_menor" placeholder="Nome completo">
 <input id="Data_nascimento_menor" placeholder="Data de nascimento">
 <input id="Estado_nascimento_menor" placeholder="Estado de nascimento">
-<input id="pais_menor" placeholder="País (Menor)">
+<input id="pais_menor" placeholder="País">
 
+<h3>Tribunal</h3>
 <input id="Tribunal" placeholder="Tribunal">
 
 <button onclick="gerar()">Gerar Documento</button>
@@ -59,9 +63,9 @@ end: "]]"
 });
 
 doc.render({
-Nome_completo: document.getElementById("Nome_completo").value,
-Data_nascimento: document.getElementById("Data_nascimento").value,
-Estado_nascimento: document.getElementById("Estado_nascimento").value,
+Nome_completo_IT: document.getElementById("Nome_completo_IT").value,
+Data_nascimento_IT: document.getElementById("Data_nascimento_IT").value,
+Estado_nascimento_IT: document.getElementById("Estado_nascimento_IT").value,
 pais_IT: document.getElementById("pais_IT").value,
 
 Nome_completo_outro: document.getElementById("Nome_completo_outro").value,
@@ -81,7 +85,7 @@ let out = doc.getZip().generate({
 type: "blob"
 });
 
-let nome = document.getElementById("Nome_completo").value || "documento";
+let nome = document.getElementById("Nome_completo_menor").value || "documento";
 nome = nome.replace(/[\\/:*?"<>|]/g, "");
 
 let blob = new Blob([out], {
