@@ -3,7 +3,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Gerador de Procuração para Menores</title>
+<title>Gerador de Procuração</title>
 
 <script src="https://unpkg.com/pizzip@3.1.5/dist/pizzip.js"></script>
 
@@ -12,60 +12,32 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
 
 <style>
-body { 
-  font-family: Arial; 
-  max-width: 700px; 
-  margin: auto; 
-}
-
-h1 {
-  margin-bottom: 20px;
-}
-
-h2 {
-  margin-top: 30px;
-  margin-bottom: 10px;
-}
-
-input {
-  width: 100%;
-  padding: 10px;
-  margin-bottom: 8px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-}
-
-button {
-  width: 100%;
-  padding: 12px;
-  font-size: 16px;
-  margin-top: 20px;
-}
+body { font-family: Arial; max-width: 600px; margin: auto; }
+input { width: 100%; padding: 8px; margin-bottom: 10px; }
+button { padding: 10px; font-size: 16px; }
 </style>
-
 
 </head>
 
 <body>
 
-<h1>Gerador de Procuração para Menores</h1>
+<h2>Gerador de Procuração</h2>
 
-<h2>Genitor de origem italiana</h2>
-<input id="Nome_completo_IT" placeholder="Nome completo do genitor de origem italiana">
-<input id="Data_nascimento_IT" placeholder="Data de nascimento">
-<input id="Estado_nascimento_IT" placeholder="Estado de nascimento">
+<input id="Nome_completo" placeholder="Nome completo">
+<input id="Data_nascimento" placeholder="Data de nascimento">
+<input id="Estado_nascimento" placeholder="Estado de nascimento">
+<input id="pais_IT" placeholder="País (Genitor IT)">
 
-<h2>Outro genitor</h2>
-<input id="Nome_completo_outro" placeholder="Nome completo do outro genitor">
+<input id="Nome_completo_outro" placeholder="Nome completo (Outro genitor)">
 <input id="Data_nascimento_outro" placeholder="Data de nascimento">
 <input id="Estado_nascimento_outro" placeholder="Estado de nascimento">
+<input id="pais_outro" placeholder="País (Outro genitor)">
 
-<h2>Menor</h2>
-<input id="Nome_completo_menor" placeholder="Nome completo do menor">
+<input id="Nome_completo_menor" placeholder="Nome completo (Menor)">
 <input id="Data_nascimento_menor" placeholder="Data de nascimento">
 <input id="Estado_nascimento_menor" placeholder="Estado de nascimento">
+<input id="pais_menor" placeholder="País (Menor)">
 
-<h2>Tribunal</h2>
 <input id="Tribunal" placeholder="Tribunal">
 
 <button onclick="gerar()">Gerar Documento</button>
@@ -74,7 +46,7 @@ button {
 
 async function gerar() {
 
-let response = await fetch("menores.docx");
+let response = await fetch("Teste.docx");
 let content = await response.arrayBuffer();
 
 let zip = new PizZip(content);
@@ -87,17 +59,20 @@ end: "]]"
 });
 
 doc.render({
-Nome_completo_IT: document.getElementById("Nome_completo_IT").value,
-Data_nascimento_IT: document.getElementById("Data_nascimento_IT").value,
-Estado_nascimento_IT: document.getElementById("Estado_nascimento_IT").value,
+Nome_completo: document.getElementById("Nome_completo").value,
+Data_nascimento: document.getElementById("Data_nascimento").value,
+Estado_nascimento: document.getElementById("Estado_nascimento").value,
+pais_IT: document.getElementById("pais_IT").value,
 
 Nome_completo_outro: document.getElementById("Nome_completo_outro").value,
 Data_nascimento_outro: document.getElementById("Data_nascimento_outro").value,
 Estado_nascimento_outro: document.getElementById("Estado_nascimento_outro").value,
+pais_outro: document.getElementById("pais_outro").value,
 
 Nome_completo_menor: document.getElementById("Nome_completo_menor").value,
 Data_nascimento_menor: document.getElementById("Data_nascimento_menor").value,
 Estado_nascimento_menor: document.getElementById("Estado_nascimento_menor").value,
+pais_menor: document.getElementById("pais_menor").value,
 
 Tribunal: document.getElementById("Tribunal").value
 });
@@ -106,10 +81,20 @@ let out = doc.getZip().generate({
 type: "blob"
 });
 
-let nome = document.getElementById("Nome_completo_menor").value || "documento";
+let nome = document.getElementById("Nome_completo").value || "documento";
 nome = nome.replace(/[\\/:*?"<>|]/g, "");
 
-saveAs(out, nome.replace(/ /g,"_") + ".docx");
+let blob = new Blob([out], {
+type: "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+});
+
+let link = document.createElement("a");
+link.href = URL.createObjectURL(blob);
+link.download = nome.replace(/ /g,"_") + ".docx";
+
+document.body.appendChild(link);
+link.click();
+document.body.removeChild(link);
 
 }
 
